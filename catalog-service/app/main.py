@@ -1,42 +1,27 @@
 from contextlib import asynccontextmanager
-from http.client import HTTPException
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.params import Depends
+
+from fastapi import FastAPI, Depends, HTTPException
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette import status
 
-from app.config import get_settings
+
 from app.database import get_db
 from app.schemas import ProductCreateSchema, ProductReadSchema
 from app.models import Base, Product
 from app.database import engine
 
 
-settings = get_settings()
-
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    from app.models import Product
+
     Base.metadata.create_all(bind=engine)
     yield
 
 
 app = FastAPI(lifespan=lifespan)
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origin,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    allow_credentials=True,
-)
-
-
-
 
 @app.get(
     "/products",

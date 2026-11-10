@@ -1,4 +1,4 @@
-from pydantic import PostgresDsn, Field
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -13,5 +13,4 @@ class Settings(BaseSettings):
         env_ignore_empty=True,
     )
 
-def get_settings() -> Settings:
-    return Settings()
+settings = Settings()
