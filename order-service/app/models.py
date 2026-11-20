@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from uuid import uuid4
 
@@ -29,7 +31,7 @@ class Order(Base):
 class OrderItem(Base):
     __tablename__ = "order_items"
 
-    order_id: Mapped[str] = mapped_column(ForeignKey("orders_id"))
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id"))
     product_id: Mapped[str]
     product_name: Mapped[str]
     quantity: Mapped[int]
